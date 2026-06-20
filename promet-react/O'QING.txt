@@ -1,0 +1,94 @@
+==================================================
+  PROMET — Tom markazi sayti (React + Vite)
+  GitHub + Vercel'da ishga tushirish qo'llanmasi
+==================================================
+
+Bu loyiha 2 qismdan iborat:
+  • Ommaviy sayt  — mijozlar ko'radigan sahifa (so'rov formasi bilan)
+  • Admin panel   — /admin manzilida: so'rovlar (leadlar) nazorati va sayt matnini tahrirlash
+
+Ma'lumotlar (so'rovlar va o'zgartirgan matnlaringiz) bepul "Upstash Redis"
+ma'lumotlar bazasida saqlanadi. Telegram'ga bildirishnoma — ixtiyoriy.
+
+--------------------------------------------------
+1-QADAM. GITHUB'GA YUKLASH (kompyuter / brauzer orqali)
+--------------------------------------------------
+1. github.com saytiga kiring (akkaunt bo'lmasa — bepul ro'yxatdan o'ting).
+2. O'ng yuqoridagi "+" > "New repository" ni bosing.
+3. Repository name: masalan  promet-sayt . "Create repository" ni bosing.
+4. Ochilgan sahifada "uploading an existing file" havolasini bosing.
+5. Shu papkadagi BARCHA fayl va papkalarni (node_modules'dan tashqari — u allaqachon
+   chiqarib tashlangan) brauzerga sudrab tashlang (drag & drop).
+   * Eslatma: "src", "api", "public" papkalari ham ichidagi fayllari bilan yuklanishi shart.
+6. Pastda "Commit changes" ni bosing. Tayyor — kod GitHub'da.
+
+--------------------------------------------------
+2-QADAM. VERCEL'DA ISHGA TUSHIRISH
+--------------------------------------------------
+1. vercel.com saytiga kiring va "Continue with GitHub" orqali tizimga kiring.
+2. "Add New..." > "Project" ni bosing.
+3. Hozir yuklagan  promet-sayt  repozitoriyangizni toping va "Import" ni bosing.
+4. Vercel o'zi "Vite" ekanini aniqlaydi — hech narsani o'zgartirmang.
+5. Hozircha "Deploy" ni bosmang — avval 3 va 4-qadamni bajaring (baza va parol).
+   (Agar bosib yuborgan bo'lsangiz ham bo'ladi — keyin sozlamalarni qo'shib,
+    "Redeploy" qilasiz.)
+
+--------------------------------------------------
+3-QADAM. BEPUL MA'LUMOTLAR BAZASI (UPSTASH REDIS)
+--------------------------------------------------
+1. upstash.com saytiga kiring (GitHub bilan bepul kirish mumkin).
+2. "Redis" > "Create Database" ni bosing.
+   - Name: promet
+   - Region: o'zingizga yaqin (masalan Frankfurt yoki AWS eu-central-1)
+   - "Create" ni bosing.
+3. Ochilgan baza sahifasida pastga tushib "REST API" bo'limini toping.
+4. U yerdan IKKI qiymatni nusxalab oling:
+       UPSTASH_REDIS_REST_URL    (https://....upstash.io)
+       UPSTASH_REDIS_REST_TOKEN  (uzun maxfiy kalit)
+   Bularni 4-qadamda Vercel'ga qo'yasiz.
+
+--------------------------------------------------
+4-QADAM. SOZLAMALAR (ENVIRONMENT VARIABLES) — ENG MUHIM QADAM
+--------------------------------------------------
+Vercel'da loyihangizni oching > "Settings" > "Environment Variables".
+Quyidagilarni qo'shing (Name va Value):
+
+  MAJBURIY:
+    ADMIN_PASSWORD              =  (admin panel paroli — o'zingiz tanlang, masalan: tom2024)
+    UPSTASH_REDIS_REST_URL      =  (Upstash'dan olgan URL)
+    UPSTASH_REDIS_REST_TOKEN    =  (Upstash'dan olgan token)
+
+  IXTIYORIY (Telegram'ga so'rov kelib turishi uchun):
+    TELEGRAM_BOT_TOKEN          =  (Telegram'da @BotFather'dan bot yaratib oling)
+    TELEGRAM_CHAT_ID            =  (Telegram'da @userinfobot'ga yozsangiz beradi)
+
+Har birini qo'shgach "Save" bosing.
+So'ng "Deployments" bo'limiga o'ting > eng yuqoridagi deploy yonidagi "..." >
+"Redeploy" ni bosing. (Sozlamalar faqat qayta deploy qilingach ishlaydi.)
+
+--------------------------------------------------
+TAYYOR! SAYTDAN FOYDALANISH
+--------------------------------------------------
+• Sayt manzili:     https://promet-sayt.vercel.app   (o'zingizning manzilingiz)
+• Admin panel:      https://promet-sayt.vercel.app/admin
+    - Parol: yuqorida ADMIN_PASSWORD ga yozgan parolingiz.
+    - "So'rovlar" bo'limida mijoz so'rovlari ko'rinadi (Excel/CSV ga yuklash ham bor).
+    - "Sayt matni" bo'limida barcha yozuvlar, telefon, Telegram havola, galereya
+      rasmlari (havola orqali) va Facebook Pixel ID ni o'zgartirasiz.
+
+ESLATMA:
+  - Sayt baza ulanmasa ham ochiladi (standart matnlar ko'rinadi), lekin
+    so'rovlar saqlanishi va matn tahriri uchun Upstash (3-4 qadam) shart.
+  - Galereyaga rasm qo'yish: rasmni internetga joylab (masalan, o'z hostingiz yoki
+    imgur.com), havolasini "Sayt matni > Ishlarimiz" bo'limiga qo'ying.
+  - Parolni hech kimga bermang. Kerak bo'lsa Vercel sozlamalaridan ADMIN_PASSWORD
+    ni o'zgartirib, qayta deploy qiling.
+
+--------------------------------------------------
+KOMPYUTERDA SINASH (ixtiyoriy — dasturchilar uchun)
+--------------------------------------------------
+  npm install
+  npm run dev
+  (api/ funksiyalari faqat Vercel'da yoki "vercel dev" buyrug'i bilan ishlaydi.)
+
+Savol bo'lsa — yordam berishga tayyormiz.
